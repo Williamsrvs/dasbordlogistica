@@ -9,9 +9,9 @@ import plotly.graph_objects as go
 
 warnings.filterwarnings("ignore")
 
-# ─────────────────────────────────────────────
+
 # CONFIGURAÇÃO DA PÁGINA
-# ─────────────────────────────────────────────
+
 st.set_page_config(
     page_title="Torre de Controle · Logística",
     page_icon="📦",
@@ -19,9 +19,9 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ─────────────────────────────────────────────
+
 # CSS — DESIGN EDITORIAL INDUSTRIAL
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
@@ -184,9 +184,9 @@ hr {
 </style>
 """, unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
+
 # PALETA — INDUSTRIAL / TIPOGRÁFICA
-# ─────────────────────────────────────────────
+
 CORES_STATUS = {
     "Finalizado":        "#2D6A3F",
     "Em trânsito":       "#1A4E8A",
@@ -234,9 +234,9 @@ def base_layout(**overrides):
     layout.update(overrides)
     return layout
 
-# ─────────────────────────────────────────────
+
 # DADOS
-# ─────────────────────────────────────────────
+
 @st.cache_data
 def carregar_dados():
     df = pd.read_excel("torre_controle.xlsx")
@@ -254,9 +254,9 @@ def carregar_dados():
 
 df_base = carregar_dados()
 
-# ─────────────────────────────────────────────
+
 # SIDEBAR
-# ─────────────────────────────────────────────
+
 with st.sidebar:
     st.markdown("""
     <div style="padding: 8px 0 24px 0;">
@@ -305,9 +305,9 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
+
 # FILTROS
-# ─────────────────────────────────────────────
+
 df = df_base.copy()
 if sel_anos:                   df = df[df["ANO"].isin(sel_anos)]
 if sel_cliente    != "Todos":  df = df[df["CLIENTE"] == sel_cliente]
@@ -316,9 +316,9 @@ if sel_status     != "Todos":  df = df[df["STATUS"] == sel_status]
 if sel_prioridade != "Todas":  df = df[df["PRIORIDADE"] == sel_prioridade]
 if sel_operacao   != "Todas":  df = df[df["OPERACAO"] == sel_operacao]
 
-# ─────────────────────────────────────────────
+
 # CABEÇALHO
-# ─────────────────────────────────────────────
+
 col_title, col_sub = st.columns([3, 1])
 with col_title:
     st.markdown("""
@@ -355,9 +355,9 @@ if df.empty:
     st.warning("Nenhum registro encontrado com os filtros selecionados.")
     st.stop()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 1 — KPIs
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">desempenho geral</div>
 <div class="section-title">Indicadores principais</div>
@@ -394,9 +394,9 @@ c8.metric("Peso total transportado",  f"{peso_total/1e6:.1f} M kg")
 
 st.divider()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 2 — STATUS E PRIORIDADE
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">composição operacional</div>
 <div class="section-title">Status e prioridade das viagens</div>
@@ -456,9 +456,9 @@ with col_b:
 
 st.divider()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 3 — ANÁLISE TEMPORAL
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">evolução histórica</div>
 <div class="section-title">Volume e atrasos por período</div>
@@ -516,9 +516,9 @@ st.plotly_chart(fig_tempo, use_container_width=True)
 
 st.divider()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 4 — TEMPOS OPERACIONAIS
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">eficiência operacional</div>
 <div class="section-title">Análise de tempos por parceiro</div>
@@ -571,9 +571,9 @@ with col_d:
 
 st.divider()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 5 — OCORRÊNCIAS
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">gestão de riscos</div>
 <div class="section-title">Ocorrências e desvios operacionais</div>
@@ -627,9 +627,9 @@ with col_f:
 
 st.divider()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 6 — FLUXO ORIGEM → DESTINO
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">mapeamento de rotas</div>
 <div class="section-title">Fluxo de cargas por origem e destino</div>
@@ -666,9 +666,9 @@ st.plotly_chart(fig_sankey, use_container_width=True)
 
 st.divider()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 7 — FROTA
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">gestão de frota</div>
 <div class="section-title">Análise por tipo de veículo</div>
@@ -712,9 +712,9 @@ with col_h:
 
 st.divider()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 8 — DOCAS E HEATMAP HORÁRIO
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">utilização de infraestrutura</div>
 <div class="section-title">Docas e distribuição horária</div>
@@ -763,9 +763,9 @@ with col_j:
 
 st.divider()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 9 — RANKING TRANSPORTADORAS
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">ranking de parceiros</div>
 <div class="section-title">Performance das transportadoras</div>
@@ -798,9 +798,9 @@ st.dataframe(
 
 st.divider()
 
-# ─────────────────────────────────────────────
+
 # SEÇÃO 10 — TABELA DE VIAGENS RECENTES
-# ─────────────────────────────────────────────
+
 st.markdown("""
 <div class="section-label">detalhe operacional</div>
 <div class="section-title">Últimas 100 viagens registradas</div>
@@ -823,9 +823,9 @@ df_recentes = (
 )
 st.dataframe(df_recentes, use_container_width=True, height=380)
 
-# ─────────────────────────────────────────────
+
 # RODAPÉ
-# ─────────────────────────────────────────────
+
 st.divider()
 st.markdown("""
 <div style="display: flex; justify-content: space-between; align-items: center;
